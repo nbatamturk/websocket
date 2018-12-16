@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket</title>
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        $(()=>{
+            const socket = io.connect('http://localhost:3000/');
+
+            $('button').on('click',()=> {
+                socket.emit('selamver', {city:'İzmir' , name:'Burak'});
+            });
+
+            socket.on('merhabade',(data)=>{
+                $('#mesaj').append('Server '+ data.country +' Merhaba Dedi.<br />');
+            });
+
+        });
+    </script>
+</head>
+<body>
+Html test sayfası <button>Sunucuya Selam Ver</button>
+<div id="mesaj"></div>
+</body>
+</html>

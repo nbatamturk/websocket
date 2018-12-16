@@ -1,0 +1,23 @@
+{
+  "name": "websocket",
+  "version": "1.0.0",
+  "description": "nodeJS Web Socket Eğitim",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nbatamturk/websocket.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nbatamturk/websocket/issues"
+  },
+  "homepage": "https://github.com/nbatamturk/websocket#readme",
+  "dependencies": {
+    "socket.io": "^2.2.0"
+  }
+}
