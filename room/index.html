@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket</title>
+    <style>
+        #leaveRoom{display:none;}
+    </style>
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        $(()=>{
+            const socket = io.connect('http://localhost:3000/',{
+                reconnectionAttempts:4,
+                reconnectionDelay:1000
+                //reconnection: false
+            });
+
+            socket.on('reconnect_attempt',()=>{
+               $('.reconnectStatus').html('Yeniden bağlanmaya çalışılıyor');
+            });
+
+            socket.on('reconnect_error',()=>{
+                $('.reconnectStatus').html('Yeniden bağlanma başarısız');
+            });
+
+            socket.on('reconnect',()=>{
+                $('.reconnectStatus').html('Yeniden bağlanma başarılı');
+            });
+
+            $('#joinRoom').on('click',()=> {
+                socket.emit('joinRoom', { name: $('#roomName').val() });
+            });
+
+            $('#leaveRoom').on('click',()=> {
+                socket.emit('leaveRoom', { name: $('#roomName').val() });
+            });
+
+            socket.on('new join',(data)=>{
+                $('#userCount').html('Bu odada <b> ' + data.count + '</b> Kişi Var');
+            });
+
+            socket.on('leavedRoom',(data)=>{
+                $('#userCount').html('Bu odada <b> ' + data.count + '</b> Kişi Var');
+            });
+
+            socket.on('log',(data)=>{
+                $('.logs').append(data.message + ' <br />');
+                $('#roomName,#joinRoom').attr('disabled','disable');
+                $('#leaveRoom').show();
+            });
+
+            socket.on('socket.leaved',(data)=>{
+                $('.logs').append(data.message+ '<br />');
+                $('#roomName,#joinRoom').removeAttr('disabled');
+                $('#leaveRoom').hide();
+                $('#userCount').empty();
+            });
+
+        });
+    </script>
+</head>
+<body>
+
+<div class="reconnectStatus"></div>
+
+<input id="roomName"/>
+<button id="joinRoom">Join :)</button>
+<button id="leaveRoom">Leave :|</button>
+<div id="userCount"></div>
+<div class="logs"></div>
+</body>
+</html>
